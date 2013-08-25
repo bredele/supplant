@@ -9,7 +9,7 @@
 
 module.exports = function(str, obj){
   return str.replace(/\{([^}]+)\}/g, function(_, expr){
-    var value = obj[expr];
+    var value = obj[expr.trim()];
     return value ? value : '';
   });
 };
