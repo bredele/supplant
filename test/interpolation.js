@@ -1,4 +1,6 @@
 var interpolation = require('interpolation');
+var assert = require('assert');
+
 
 describe('string interpolation', function(){
   it('should support initialization', function(){
