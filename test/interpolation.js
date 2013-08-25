@@ -13,12 +13,12 @@ describe('string interpolation', function(){
   });
 
   it('should return an empty string if the interpolation doesn\'t exist', function(){
-    var str = "This is a {petrofeed} interpolation";
+    var str = "This is an {petrofeed} interpolation";
     var obj = {
       other : 'awesome'
     };
     var result = interpolation(str, obj);
-    assert('This is a interpolation' === result);
+    assert('This is an  interpolation' === result);
   });
 
   it('should ignore whitespace', function(){

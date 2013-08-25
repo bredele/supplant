@@ -9,6 +9,7 @@
 
 module.exports = function(str, obj){
   return str.replace(/\{([^}]+)\}/g, function(_, expr){
-    return obj[expr];
+    var value = obj[expr];
+    return value ? value : '';
   });
 };
