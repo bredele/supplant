@@ -8,5 +8,7 @@
  */
 
 module.exports = function(str, obj){
-
+  return str.replace(/\{([^}]+)\}/g, function(_, expr){
+    return '';
+  });
 };
