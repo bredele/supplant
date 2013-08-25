@@ -5,6 +5,10 @@ build: components index.js
 components: component.json
 	@component install --dev
 
+test: build
+	open test/index.html
+
+
 clean:
 	rm -fr build components template.js
 
