@@ -40,3 +40,25 @@ describe('string interpolation', function(){
     assert('This is an awesome interpolation made by Bredele' === result);
   });
 });
+
+describe('interpolation magic', function(){
+  it('should do some math', function(){
+    var str = "This is simple math: { a + b }";
+    var obj = {
+      a : 2,
+      b : 3
+    };
+    var result = interpolation(str, obj);
+    assert('This is simple math: 5' === result);
+  });
+
+  it('should manipulate a string', function(){
+    var str = 'Hello { label.replace("w", "W") }';
+    var obj = {
+      label : 'world'
+    };
+    var result = interpolation(str, obj);
+    assert('Hello World' === result);
+  });
+  
+});
