@@ -1,20 +1,20 @@
 function parse(expr){
-  return new Function('obj', expr);
+  return new Function('model', expr);
 }
 
 /**
  * Expose 'interpolation'
  *
  * @param {String} str
- * @param {Object} obj
+ * @param {Object} model
  * @return {String} interpolation's result
  */
 
-module.exports = function(str, obj){
+module.exports = function(str, model){
   return str.replace(/\{([^}]+)\}/g, function(_, expr){
     var fn = parse('return '+ expr.trim());
     console.log(fn);
-    var value = obj[expr.trim()];
+    var value = model.get(expr.trim());
     return value ? value : '';
   });
 };
