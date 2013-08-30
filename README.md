@@ -9,9 +9,9 @@ Interpolation on string
 
 ## API
 
-### interpolation(str, obj)
+### interpolation(str, store)
 
-  return the interpolation of a string with an object
+  return the interpolation of a string with an [store]()-like object
 
 ## Example
 ```js
