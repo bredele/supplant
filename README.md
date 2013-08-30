@@ -11,7 +11,7 @@ Interpolation on string
 
 ### interpolation(str, store)
 
-  return the interpolation of a string with an [store]()-like object
+  return the interpolation of a string with an [store](https://github.com/bredele/store)-like object
 
 ## Example
 ```js
