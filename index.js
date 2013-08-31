@@ -11,6 +11,7 @@
  */
 
 module.exports.text = function(text, model){
+  //TODO: refactor with attrs
   return text.replace(/\{([^}]+)\}/g, function(_, expr){
     //var fn = parse('return '+ expr.trim());
     var value = model.get(expr.trim());
