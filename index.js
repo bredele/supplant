@@ -1,6 +1,6 @@
-function parse(expr){
-  return new Function('model', expr);
-}
+// function parse(expr){
+//   return new Function('model', expr);
+// }
 
 /**
  * Expose 'interpolation'
@@ -10,10 +10,9 @@ function parse(expr){
  * @return {String} interpolation's result
  */
 
-module.exports.text = function(str, model){
-  return str.replace(/\{([^}]+)\}/g, function(_, expr){
-    var fn = parse('return '+ expr.trim());
-    console.log(fn);
+module.exports.text = function(text, model){
+  return text.replace(/\{([^}]+)\}/g, function(_, expr){
+    //var fn = parse('return '+ expr.trim());
     var value = model.get(expr.trim());
     return value ? value : '';
   });
