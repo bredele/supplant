@@ -10,11 +10,20 @@ function parse(expr){
  * @return {String} interpolation's result
  */
 
-module.exports = function(str, model){
+module.exports.text = function(str, model){
   return str.replace(/\{([^}]+)\}/g, function(_, expr){
     var fn = parse('return '+ expr.trim());
     console.log(fn);
     var value = model.get(expr.trim());
     return value ? value : '';
   });
+};
+
+module.exports.attrs = function(text, model){
+  var exprs = [];
+  text.replace(/\{([^}]+)\}/g, function(_, expr){
+    var value = expr.trim();
+    if(!~exprs.indexOf(value)) exprs.push(value);
+  });
+  return exprs;
 };
