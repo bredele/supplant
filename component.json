@@ -4,7 +4,9 @@
   "description": "Interpolation on string",
   "version": "0.0.1",
   "keywords": [],
-  "dependencies": {},
+  "dependencies": {
+    "component/indexof": "*"
+  },
   "development": {
     "component/assert": "*"
   },
