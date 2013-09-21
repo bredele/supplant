@@ -5,7 +5,7 @@ Interpolation on string
 
 ## Installation
 
-    $ component install bredele/interpolation
+    $ component install leafs/interpolation
 
 ## API
 
