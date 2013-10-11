@@ -1,12 +1,12 @@
 {
   "name": "interpolation",
-  "repo": "leafs/interpolation",
+  "repo": "bredele/interpolation",
   "description": "Interpolation on string",
   "version": "0.0.1",
   "keywords": [],
   "dependencies": {
     "component/indexof": "*",
-    "leafs/trim": "*"
+    "bredele/trim": "*"
   },
   "development": {
     "component/assert": "*"
