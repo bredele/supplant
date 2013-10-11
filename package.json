@@ -15,18 +15,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/leafs/interpolation.git"
+    "url": "git://github.com/bredele/interpolation.git"
   },
   "keywords": [
     "string",
     "interpolation",
     "template"
   ],
-  "author": "Olivier Wietrich - PetroFeed",
+  "author": "Olivier Wietrich ",
   "license": "BSD",
   "readmeFilename": "README.md",
   "gitHead": "ac5236caa3f6347ac2c6fc4ee0db254ef782e3a9",
   "bugs": {
-    "url": "https://github.com/leafs/interpolation/issues"
+    "url": "https://github.com/bredele/interpolation/issues"
   }
 }
