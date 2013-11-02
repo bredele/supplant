@@ -18,11 +18,11 @@ Interpolation on string
 var interpolation = require('interpolation');
 
 var obj = {
-  company : 'PetroFeed',
+  company : 'Github',
   status : 'awesome'
 };
 
-interpolation('my job at {company} is {status}', obj);
+interpolation('my job at {github} is {status}', obj);
 //my job at PetroFeed is awesome
 ```
 
