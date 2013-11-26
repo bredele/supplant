@@ -1,29 +1,31 @@
 interpolation
 =============
 
-Interpolation on string
+  > Variable substitution on the string.
+
+It scans through the string looking for expressions enclosed in { } braces. If an expression is found, use it as a key on the object, and if the key has a string value or number value, it is substituted for the bracket expression and it repeats.
 
 ## Installation
 
-    $ component install bredele/interpolation
+    $ component install bredele/supplant
 
 ## API
 
-### interpolation(str, store)
+### supplant(str, store)
 
   return the interpolation of a string with an [store](https://github.com/bredele/store)-like object
 
 ## Example
 ```js
-var interpolation = require('interpolation');
+var supplant = require('supplant');
 
 var obj = {
   company : 'Github',
   status : 'awesome'
 };
 
-interpolation('my job at {github} is {status}', obj);
-//my job at PetroFeed is awesome
+supplant('my job at {company} is {status}', obj);
+//my job at Github is awesome
 ```
 
 ## License
