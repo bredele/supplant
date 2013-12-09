@@ -23,28 +23,37 @@ describe('string interpolation', function(){
   it('should support initialization', function(){
     var str = "This is an {test} interpolation";
     var result = supplant(str, store);
-    assert('This is an awesome interpolation' === result);
+    assert('This is an awesome interpolation' === result.text);
   });
 
   it('should return an empty string if the interpolation doesn\'t exist', function(){
     var str = "This is an {something} interpolation";
     var result = supplant(str, store);
-    assert('This is an  interpolation' === result);
+    assert('This is an  interpolation' === result.text);
   });
 
   it('should ignore whitespace', function(){
     var str = "This is an { test   } interpolation";
     var result = supplant(str, store);
-    assert('This is an awesome interpolation' === result);
+    assert('This is an awesome interpolation' === result.text);
   });
 
   it('should support mutiple interpolation', function(){
     var str = "This is an {test} interpolation made by {name}";
     store.set('name', 'Bredele');
     var result = supplant(str, store);
-    assert('This is an awesome interpolation made by Bredele' === result);
+    assert('This is an awesome interpolation made by Bredele' === result.text);
   });
 });
+
+// describe('handlebars', function() {
+//   it("should return the content of simple handlebars", function() {
+//     var str = "{{test}}";
+//     var result = supplant(str, {test:'bredele'});
+//     assert(bredele === result);
+//   });
+
+// });
 
 describe('interpolation attrs utils', function(){
 
@@ -61,14 +70,14 @@ describe('interpolation attrs utils', function(){
   it('should return an array of the store attributes', function(){
 
     var str = "{welcome} My name is {firstname} {lastname} and I love {country}";
-    var props = supplant.attrs(str, store);
-    assert('["welcome","firstname","lastname","country"]' === JSON.stringify(props));
+    var props = supplant(str, store);
+    assert('["welcome","firstname","lastname","country"]' === JSON.stringify(props.props));
   });
 
   it('should return a uniq array', function(){
     var str = "My github is {github} {github} and I love {country}";
-    var props = supplant.attrs(str, store);
-    assert('["github","country"]' === JSON.stringify(props));
+    var props = supplant(str, store);
+    assert('["github","country"]' === JSON.stringify(props.props));
   });
 
 });
