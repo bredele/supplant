@@ -11,14 +11,17 @@ var trim = require('trim');
  */
 
 module.exports = function(text, model){
+  return text.replace(/\{([^}]+)\}/g, function(_, expr){
+    return model.get(trim(expr)) || '';
+  });
+};
+
+
+module.exports.attrs = function(text) {
   var exprs = [];
-  var str = text.replace(/\{([^}]+)\}/g, function(_, expr){
+  text.replace(/\{([^}]+)\}/g, function(_, expr){
     var val = trim(expr);
     if(!~indexOf(exprs, val)) exprs.push(val);
-    return model.get(val) || '';
   });
-  return {
-    text: str,
-    props: exprs
-  };
+  return exprs;
 };
