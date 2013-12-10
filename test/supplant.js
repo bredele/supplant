@@ -2,12 +2,12 @@ var supplant = require('supplant');
 var assert = require('assert');
 
 function Store(data){
-  var _data = data;
+  this.data = data;
   this.set = function(name, value) {
-    _data[name] = value;
+    this.data[name] = value;
   };
   this.get = function(name){
-    return _data[name];
+    return this.data[name];
   };
 };
 
@@ -85,19 +85,19 @@ describe('interpolation attrs utils', function(){
 describe('interpolation magic', function(){
   it('should do some math', function(){
     var str = "This is simple math: { a + b }";
-    var obj = {
+    var obj = new Store({
       a : 2,
       b : 3
-    };
+    });
     var result = supplant(str, obj);
     assert('This is simple math: 5' === result);
   });
 
   it('should manipulate a string', function(){
     var str = 'Hello { label.replace("w", "W") }';
-    var obj = {
+    var obj = new Store({
       label : 'world'
-    };
+    });
     var result = supplant(str, obj);
     assert('Hello World' === result);
   });
