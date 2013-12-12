@@ -15,7 +15,7 @@ var cache = {};
  */
 
 module.exports = function(text, model){
-	//should we cache in the function the entire text or just the expression?
+	//TODO:  cache the function the entire text or just the expression?
   return text.replace(/\{([^}]+)\}/g, function(_, expr){
   	if(/[.'[+(]/.test(expr)) {
   		var fn = cache[expr] = cache[expr] || scope(expr);
