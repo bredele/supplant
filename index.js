@@ -1,10 +1,14 @@
 var indexOf = require('indexof'),
-    trim = require('trim');
-    // scope = require('scope');
+    trim = require('trim'),
+    props = require('props');
 
 
-    var cache = {};
+var cache = {};
 
+function scope(statement){
+  var result = props(statement, 'model.');
+  return new Function('model', 'return ' + result);
+};
 
 /**
  * Variable substitution on the string.
@@ -17,10 +21,10 @@ var indexOf = require('indexof'),
  module.exports = function(text, model){
 	//TODO:  cache the function the entire text or just the expression?
   return text.replace(/\{([^}]+)\}/g, function(_, expr) {
-  	// if(/[.'[+(]/.test(expr)) {
-  	// 	var fn = cache[expr] = cache[expr] || scope(expr);
-  	// 	return fn(model.data) || '';
-  	// }
+  	if(/[.'[+(]/.test(expr)) {
+  		var fn = cache[expr] = cache[expr] || scope(expr);
+  		return fn(model) || '';
+  	}
     return model[trim(expr)] || '';
   });
 };
