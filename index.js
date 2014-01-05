@@ -1,6 +1,6 @@
 var indexOf = require('indexof'),
-    trim = require('trim'),
-    scope = require('scope');
+    trim = require('trim');
+    // scope = require('scope');
 
 
 var cache = {};
@@ -16,11 +16,11 @@ var cache = {};
 
 module.exports = function(text, model){
 	//TODO:  cache the function the entire text or just the expression?
-  return text.replace(/\{([^}]+)\}/g, function(_, expr){
-  	if(/[.'[+(]/.test(expr)) {
-  		var fn = cache[expr] = cache[expr] || scope(expr);
-  		return fn(model.data) || '';
-  	}
+  return text.replace(/\{([^}]+)\}/g, function(_, expr) {
+  	// if(/[.'[+(]/.test(expr)) {
+  	// 	var fn = cache[expr] = cache[expr] || scope(expr);
+  	// 	return fn(model.data) || '';
+  	// }
   	return model.get(trim(expr)) || '';
   });
 };
