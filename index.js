@@ -3,7 +3,7 @@ var indexOf = require('indexof'),
     // scope = require('scope');
 
 
-var cache = {};
+    var cache = {};
 
 
 /**
@@ -14,7 +14,7 @@ var cache = {};
  * @return {String} interpolation's result
  */
 
-module.exports = function(text, model){
+ module.exports = function(text, model){
 	//TODO:  cache the function the entire text or just the expression?
   return text.replace(/\{([^}]+)\}/g, function(_, expr) {
   	// if(/[.'[+(]/.test(expr)) {
