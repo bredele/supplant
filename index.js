@@ -21,7 +21,7 @@ module.exports = function(text, model){
   	// 	var fn = cache[expr] = cache[expr] || scope(expr);
   	// 	return fn(model.data) || '';
   	// }
-  	return model.get(trim(expr)) || '';
+    return model[trim(expr)] || '';
   });
 };
 

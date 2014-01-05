@@ -1,23 +1,12 @@
 var supplant = require('supplant');
 var assert = require('assert');
 
-function Store(data){
-  this.data = data;
-  this.set = function(name, value) {
-    this.data[name] = value;
-  };
-  this.get = function(name){
-    return this.data[name];
-  };
-};
-
-
 describe('string interpolation', function(){
   var store = null;
   beforeEach(function(){
-    store = new Store({
+    store = {
       test : 'awesome'
-    });
+    };
   });
 
   it('should support initialization', function(){
@@ -40,7 +29,7 @@ describe('string interpolation', function(){
 
   it('should support mutiple interpolation', function(){
     var str = "This is an {test} interpolation made by {name}";
-    store.set('name', 'Bredele');
+    store.name = 'Bredele';
     var result = supplant(str, store);
     assert('This is an awesome interpolation made by Bredele' === result);
   });
@@ -59,12 +48,12 @@ describe('interpolation attrs utils', function(){
 
   var store = null;
   beforeEach(function(){
-    store = new Store({
+    store = {
       firstname : 'olivier',
       lastname:'wietrich',
       country: 'France',
       github:'bredele'
-    });
+    };
   })
 
   it('should return an array of the store attributes', function(){
@@ -85,19 +74,19 @@ describe('interpolation attrs utils', function(){
 describe('interpolation magic', function(){
   it('should do some math', function(){
     var str = "This is simple math: { a + b }";
-    var obj = new Store({
+    var obj = {
       a : 2,
       b : 3
-    });
+    };
     var result = supplant(str, obj);
     assert('This is simple math: 5' === result);
   });
 
   it('should manipulate a string', function(){
     var str = 'Hello { label.replace("w", "W") }';
-    var obj = new Store({
+    var obj = {
       label : 'world'
-    });
+    };
     var result = supplant(str, obj);
     assert('Hello World' === result);
   });
