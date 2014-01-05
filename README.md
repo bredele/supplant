@@ -1,4 +1,4 @@
-interpolation
+Supplant
 =============
 
   > Variable substitution on the string.
@@ -11,9 +11,9 @@ It scans through the string looking for expressions enclosed in { } braces. If a
 
 ## API
 
-### supplant(str, store)
+### supplant(str, obj)
 
-  return the interpolation of a string with an [store](https://github.com/bredele/store)-like object
+  return the interpolation of a string with an object.
 
 ## Example
 ```js
