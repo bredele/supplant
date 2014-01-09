@@ -2,3 +2,4 @@ components
 examples
 node_modules
 build
+test/cloud.js

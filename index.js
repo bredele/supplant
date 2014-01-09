@@ -1,6 +1,6 @@
 var indexOf = require('indexof'),
     trim = require('trim'),
-    props = require('props');
+    props = require('./lib/props');
 
 
 var cache = {};

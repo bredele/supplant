@@ -8,7 +8,8 @@
   },
   "dependencies": {},
   "devDependencies": {
-    "mocha": "~1.12.0"
+    "mocha": "~1.12.0",
+    "mocha-cloud": "~0.1.0"
   },
   "scripts": {
     "test": "mocha"
