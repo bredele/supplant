@@ -8,5 +8,7 @@ browsers:
     version: oldest..latest
   - name: iphone
     version: latest
+  - name: android
+    version: latest    
   - name: ie
-    version: 10..latest
+    version: 8..latest
