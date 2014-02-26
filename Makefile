@@ -8,8 +8,7 @@ components: component.json
 test: build
 	open test/index.html
 
-
 clean:
-	rm -fr build components template.js
+	rm -fr build components
 
 .PHONY: clean

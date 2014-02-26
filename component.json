@@ -6,7 +6,7 @@
   "keywords": [],
   "dependencies": {
     "component/indexof": "*",
-    "bredele/trim": "*"
+    "component/trim": "*"
   },
   "development": {
     "component/assert": "*"

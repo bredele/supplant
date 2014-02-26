@@ -1,15 +1,17 @@
 {
-  "name": "interpolation",
+  "name": "supplant",
   "version": "0.0.0",
-  "description": "String interpolation",
+  "description": "String variable substitution",
   "main": "index.js",
   "directories": {
     "test": "test"
   },
-  "dependencies": {},
+  "dependencies": {
+    "trim": "0.0.1",
+    "indexof": "0.0.1"
+  },
   "devDependencies": {
-    "mocha": "~1.12.0",
-    "mocha-cloud": "~0.1.0"
+    "mocha": "~1.12.0"
   },
   "scripts": {
     "test": "mocha"
@@ -20,6 +22,8 @@
   },
   "keywords": [
     "string",
+    "substitution",
+    "remedial",
     "interpolation",
     "template"
   ],

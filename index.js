@@ -20,7 +20,7 @@ function scope(statement){
 
  module.exports = function(text, model){
 	//TODO:  cache the function the entire text or just the expression?
-  return text.replace(/\{([^}]+)\}/g, function(_, expr) {
+  return text.replace(/\{\{([^}]+)\}\}/g, function(_, expr) {
   	if(/[.'[+(]/.test(expr)) {
   		var fn = cache[expr] = cache[expr] || scope(expr);
   		return fn(model) || '';
@@ -32,7 +32,7 @@ function scope(statement){
 
 module.exports.attrs = function(text) {
   var exprs = [];
-  text.replace(/\{([^}]+)\}/g, function(_, expr){
+  text.replace(/\{\{([^}]+)\}\}/g, function(_, expr){
     var val = trim(expr);
     if(!~indexOf(exprs, val)) exprs.push(val);
   });
