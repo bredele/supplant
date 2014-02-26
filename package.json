@@ -1,11 +1,8 @@
 {
   "name": "supplant",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "String variable substitution",
   "main": "index.js",
-  "directories": {
-    "test": "test"
-  },
   "dependencies": {
     "trim": "0.0.1",
     "indexof": "0.0.1",
