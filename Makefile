@@ -6,7 +6,7 @@ components: component.json
 	@component install --dev
 
 test: build
-	open test/index.html
+	open test/browser/index.html
 
 clean:
 	rm -fr build components

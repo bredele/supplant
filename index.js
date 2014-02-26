@@ -1,14 +1,23 @@
 var indexOf = require('indexof'),
     trim = require('trim'),
-    props = require('./lib/props');
+    props = require('props');
 
 
 var cache = {};
 
+
+/**
+ * Scope statement with object.
+ * 
+ * @param  {string} statement
+ * @return {Function}         
+ */
+
 function scope(statement){
   var result = props(statement, 'model.');
   return new Function('model', 'return ' + result);
-};
+}
+
 
 /**
  * Variable substitution on the string.

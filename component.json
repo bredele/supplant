@@ -6,7 +6,8 @@
   "keywords": [],
   "dependencies": {
     "component/indexof": "*",
-    "component/trim": "*"
+    "component/trim": "*",
+    "component/props": "*"    
   },
   "development": {
     "component/assert": "*"
@@ -14,7 +15,6 @@
   "license": "MIT",
   "main": "index.js",
   "scripts": [
-    "index.js",
-    "lib/props.js"
+    "index.js"
   ]
 }

@@ -1,5 +1,5 @@
-var supplant = require('supplant');
-var assert = require('assert');
+var supplant = require('..'),
+    assert = require('assert');
 
 describe('string interpolation', function(){
   var store = null;
