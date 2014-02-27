@@ -1,19 +1,15 @@
 {
   "name": "supplant",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "String variable substitution",
   "main": "index.js",
   "dependencies": {
     "trim": "0.0.1",
-    "indexof": "0.0.1",
-    "props-component": "~1.0.3"
+    "indexof": "0.0.1"
   },
   "devDependencies": {
     "zuul": "~1.3.0",
     "mocha": "~1.12.0"
-  },
-  "browser": {
-    "props": "props-component"
   },
   "scripts": {
    "test": "zuul -- test/supplant.js",

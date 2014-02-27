@@ -1,9 +1,35 @@
 var indexOf = require('indexof'),
     trim = require('trim'),
-    props = require('props');
+    re = /\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\/|[a-zA-Z_]\w*/g;
 
 
 var cache = {};
+
+
+function props(str) {
+  //benchmark with using match and uniq array
+  var arr = [];
+  str.replace(/\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\//g, '')
+    .replace(/[a-zA-Z_]\w*/g, function(expr) {
+      if(!~indexOf(arr, expr)) arr.push(expr);
+    });
+  return arr;
+}
+
+
+function fn(_) {
+  return 'model.' + _;
+}
+
+
+function map(str) {
+  var arr = props(str);
+  return str.replace(re, function(_){
+    if ('(' == _[_.length - 1]) return fn(_);
+    if (!~indexOf(arr, _)) return _;
+    return fn(_);
+  });
+}
 
 
 /**
@@ -13,10 +39,10 @@ var cache = {};
  * @return {Function}         
  */
 
-function scope(statement){
-  var result = props(statement, 'model.');
-  return new Function('model', 'return ' + result);
+function scope(str) {
+  return new Function('model', 'return ' + map(str));
 }
+
 
 
 /**
