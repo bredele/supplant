@@ -1,5 +1,6 @@
 Supplant
 =============
+[![Build Status](https://travis-ci.org/bredele/supplant.png?branch=master)](https://travis-ci.org/bredele/supplant)
 
   > Variable substitution on the string.
 
