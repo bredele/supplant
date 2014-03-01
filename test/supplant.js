@@ -93,9 +93,7 @@ describe('interpolation magic', function(){
 
   it('should return a uniq array of attributes to interpolate', function() {
     var str = 'Hello {{ label + (label - other)}}';
-    console.time('benchmark');
     var arr = supplant.attrs(str);
-    console.timeEnd('benchmark');
     assert.equal(arr.length, 2);
     assert.equal(arr[0], 'label');
     assert.equal(arr[1], 'other');
