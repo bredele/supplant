@@ -69,7 +69,7 @@ module.exports.attrs = function(text) {
   var exprs = [];
   text.replace(/\{\{([^}]+)\}\}/g, function(_, expr){
     var val = trim(expr);
-    if(!~indexOf(exprs, val)) exprs.push(val);
+    if(!~indexOf(exprs, val)) exprs = exprs.concat(props(val));
   });
   return exprs;
 };

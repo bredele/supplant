@@ -60,12 +60,13 @@ describe('interpolation attrs utils', function(){
 
     var str = "{{welcome}} My name is {{firstname}} {{lastname}} and I love {{country}}";
     var props = supplant.attrs(str, store);
+    console.log(props);
     assert('["welcome","firstname","lastname","country"]' === JSON.stringify(props));
   });
 
   it('should return a uniq array', function(){
     var str = "My github is {{github}} {{github}} and I love {{country}}";
-    var props = supplant.attrs(str, store);
+    var props = supplant.attrs(str);
     assert('["github","country"]' === JSON.stringify(props));
   });
 
@@ -89,6 +90,17 @@ describe('interpolation magic', function(){
     };
     var result = supplant(str, obj);
     assert('Hello World' === result);
+  });
+
+  it('should return a uniq array of attributes to interpolate', function() {
+    var str = 'Hello {{ label + (label - other)}}';
+    console.time('benchmark');
+    var arr = supplant.attrs(str);
+    console.timeEnd('benchmark');
+    console.log(arr);
+    assert.equal(arr.length, 2);
+    assert.equal(arr[0], 'label');
+    assert.equal(arr[1], 'other');
   });
   
 });
