@@ -18,31 +18,57 @@ with nodejs:
 
 ## API
 
-### supplant(str, obj)
+```js
+var Supplant = require('supplant');
+var subs = new Supplant();
+```
+
+### supplant.text(str, obj)
 
   return the interpolation of a string with an object.
 
-## Example
-
-### Basic
-
 ```js
-supplant('my job at {{ company }} is {{ status }}', {
-  company : 'Github',
-  status : 'awesome'
+subs.text('my name is {{ name }}', {
+  name : 'Olivier',
 });
 
-//my job at Github is awesome
+//my name is Olivier
 ```
+
+
+### supplant.props(str)
+
+  return uniq identifiers
+
+```js
+subs.props('hello {{ name }} and {{other}}'');
+//['name', 'other']
+```
+
+## Advanced
 
 ### Expressions
 
 ```js
-supplant('{{ company.toUpperCase() }}', {
+subs.text('{{ company.toUpperCase() }}', {
   company : 'github'
 });
 
 //GITHUB
+```
+  `supplant` supports grouping, binary operators, identifiers, comparators and ternary operators (see [test](https://github.com/bredele/supplant/blob/master/test/supplant.js)).
+
+### Filters
+
+```js
+subs.filter('hello', function(str) {
+  return 'hello ' + str;
+});
+subs.text('{{ company} | hello}', {
+  company : 'github'
+});
+
+//hello github 
 ```
 
 ## License
