@@ -1,4 +1,4 @@
-var Supplant = require('../other'),
+var Supplant = require('..'),
     assert = require('assert');
 
 describe("Variable substitution", function() {
