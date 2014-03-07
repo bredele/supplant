@@ -1,102 +1,130 @@
-var supplant = require('..'),
+var Supplant = require('../other'),
     assert = require('assert');
 
-describe('string interpolation', function(){
-  var store = null;
-  beforeEach(function(){
-    store = {
-      test : 'awesome'
-    };
-  });
+describe("Variable substitution", function() {
+	var supplant, data;
+	beforeEach(function() {
+		data = {
+			name: 'foo',
+			brother: 'bar'
+		};
+		supplant = new Supplant();
+	});
 
-  it('should support initialization', function(){
-    var str = "This is an {{test}} interpolation";
-    var result = supplant(str, store);
-    assert('This is an awesome interpolation' === result);
-  });
+	it("should substitute one variable", function() {
+		var result = supplant.text('hello {{ name }}', data);
+		assert.equal(result, 'hello foo');
+	});
 
-  it('should return an empty string if the interpolation doesn\'t exist', function(){
-    var str = "This is an {{something}} interpolation";
-    var result = supplant(str, store);
-    assert('This is an  interpolation' === result);
-  });
+	it("should substitute and empty string if varaible undefined", function() {
+		var result = supplant.text('hello {{ something }}', data);
+		assert.equal(result, 'hello ');
+	});
 
-  it('should ignore whitespace', function(){
-    var str = "This is an {{ test   }} interpolation";
-    var result = supplant(str, store);
-    assert('This is an awesome interpolation' === result);
-  });
+	
+	it("should substitute multiple variables", function() {
+		var result = supplant.text('hello {{ name }} and {{ brother }}', data);
+		assert.equal(result, 'hello foo and bar');
+	});
 
-  it('should support mutiple interpolation', function(){
-    var str = "This is an {{test}} interpolation made by {{name}}";
-    store.name = 'Bredele';
-    var result = supplant(str, store);
-    assert('This is an awesome interpolation made by Bredele' === result);
-  });
+	it("should ignore whitespaces", function() {
+		var result = supplant.text('hello {{     name    }}', data);
+		assert.equal(result, 'hello foo');
+	});
+	
 });
 
-// describe('handlebars', function() {
-//   it("should return the content of simple handlebars", function() {
-//     var str = "{{test}}";
-//     var result = supplant(str, {test:'bredele'});
-//     assert(bredele === result);
-//   });
+describe('Substitution props', function(){
 
-// });
-
-describe('interpolation attrs utils', function(){
-
-  var store = null;
-  beforeEach(function(){
-    store = {
-      firstname : 'olivier',
-      lastname:'wietrich',
-      country: 'France',
-      github:'bredele'
-    };
-  })
+	var supplant, data;
+	beforeEach(function() {
+		supplant = new Supplant();
+	});
 
   it('should return an array of the store attributes', function(){
-
     var str = "{{welcome}} My name is {{firstname}} {{lastname}} and I love {{country}}";
-    var props = supplant.attrs(str, store);
+    var props = supplant.props(str);
     assert('["welcome","firstname","lastname","country"]' === JSON.stringify(props));
   });
 
   it('should return a uniq array', function(){
     var str = "My github is {{github}} {{github}} and I love {{country}}";
-    var props = supplant.attrs(str);
+    var props = supplant.props(str);
     assert('["github","country"]' === JSON.stringify(props));
   });
 
 });
 
-describe('interpolation magic', function(){
-  it('should do some math', function(){
-    var str = "This is simple math: {{ a + b }}";
-    var obj = {
-      a : 2,
-      b : 3
-    };
-    var result = supplant(str, obj);
-    assert('This is simple math: 5' === result);
-  });
+describe("Filters", function() {
+	var supplant, data;
+	beforeEach(function() {
+		data = {
+			name: 'foo',
+			brother: 'bar',
+			bool: false
+		};
+		supplant = new Supplant();
 
-  it('should manipulate a string', function(){
-    var str = 'Hello {{ label.replace("w", "W") }}';
-    var obj = {
-      label : 'world'
-    };
-    var result = supplant(str, obj);
-    assert('Hello World' === result);
-  });
+	});
 
-  it('should return a uniq array of attributes to interpolate', function() {
-    var str = 'Hello {{ label + (label - other)}}';
-    var arr = supplant.attrs(str);
-    assert.equal(arr.length, 2);
-    assert.equal(arr[0], 'label');
-    assert.equal(arr[1], 'other');
-  });
-  
+	it("should filter variable", function() {
+		supplant.filter('hello', function(str) {
+			return 'hello ' + str + '!';
+		});
+		var result = supplant.text('{{ name} | hello}', data);
+		assert.equal(result, 'hello foo!');
+	});
+
+	it('should apply multiple filters', function() {
+		supplant.filter('hello', function(str) {
+			return 'hello ' + str + '!';
+		});
+		supplant.filter('upper', function(str) {
+			return str.toUpperCase();
+		});
+		var result = supplant.text('{{ name } | upper | hello }', data);
+		assert.equal(result, 'hello FOO!');
+	});
+
+	it('shoud filter complex expression', function() {
+		supplant.filter('hello', function(str) {
+			return 'hello ' + str + '!';
+		});
+		//around 4times slower than normal filter
+		var result = supplant.text("{{bool || 'brick'.toUpperCase()} | hello}", data);
+		assert.equal(result,'hello BRICK!');
+	});
+	
 });
+
+
+describe("Expression substitution", function() {
+	var supplant, data;
+	beforeEach(function() {
+		data = {
+			name: 'foo',
+			brother: 'bar'
+		};
+		supplant = new Supplant();
+	});
+
+	it("grouping and binary operators", function() {
+		var result = supplant.text("{{name + ' and ' + brother}}", data);
+		assert.equal(result, 'foo and bar');
+	});
+
+
+	it("identifiers", function() {
+		var result = supplant.text("{{name.length}}", data);
+		assert.equal(result, '3');
+	});
+	
+	it("comparators and ternary operators", function() {
+		var result = supplant.text("{{name.length !== 1 ? 's' : ''}}", data);
+		assert.equal(result, 's');
+	});
+
+});
+
+
+

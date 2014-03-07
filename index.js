@@ -1,10 +1,24 @@
 var indexOf = require('indexof'),
-    trim = require('trim'),
-    re = /\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\/|[a-zA-Z_]\w*/g;
+		trim = require('trim'),
+		re = /\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\/|[a-zA-Z_]\w*/g,
+		cache = {}; //should be in this?
 
 
-var cache = {};
+/**
+ * Expose 'Supplant'
+ */
 
+module.exports = Supplant;
+
+
+
+/**
+ * Get string identifiers.
+ * 
+ * @param  {String} str 
+ * @return {Array} 
+ * @api private
+ */
 
 function props(str) {
   //benchmark with using match and uniq array
@@ -22,6 +36,14 @@ function fn(_) {
 }
 
 
+/**
+ * Prefix uniq identifiers with string
+ * model.
+ * 
+ * @param  {String} str 
+ * @api private
+ */
+
 function map(str) {
   var arr = props(str);
   return str.replace(re, function(_){
@@ -36,7 +58,8 @@ function map(str) {
  * Scope statement with object.
  * 
  * @param  {string} statement
- * @return {Function}         
+ * @return {Function}
+ * @api private      
  */
 
 function scope(str) {
@@ -44,32 +67,100 @@ function scope(str) {
 }
 
 
-
 /**
- * Variable substitution on the string.
- *
- * @param {String} str
- * @param {Object} model
- * @return {String} interpolation's result
+ * Supplant constructor.
+ * @api public
  */
 
- module.exports = function(text, model){
-	//TODO:  cache the function the entire text or just the expression?
-  return text.replace(/\{\{([^}]+)\}\}/g, function(_, expr) {
-  	if(/[.'[+(]/.test(expr)) {
-  		var fn = cache[expr] = cache[expr] || scope(expr);
-  		return fn(model) || '';
-  	}
-    return model[trim(expr)] || '';
-  });
+function Supplant() {
+	this.match = /\{\{([^}]+)\}([^}]*)\}/g;
+	this.filters = {};
+}
+
+
+/**
+ * Variable substitution on string.
+ *
+ * @param {String} text
+ * @param {Object} model
+ * @return {String}
+ * @api public
+ */
+
+Supplant.prototype.text = function(text, model) {
+	var _this = this;
+	return text.replace(this.match, function(_, expr, filters) {
+		var val;
+		//is there fast regex? may be use or
+		if(/[\.\'\[\+\(\|]/.test(expr)) {
+			var fn = cache[expr] = cache[expr] || scope(expr);
+			val = fn(model) || '';
+		} else {
+			val = model[trim(expr)] || '';
+		}
+		if(filters) {
+			var list = filters.split('|');
+			for(var i = 1, l = list.length; i < l; i++) {
+				val = _this.filters[trim(list[i])](val);
+			}
+		}
+		return val;
+	});
 };
 
 
-module.exports.attrs = function(text) {
+/**
+ * Get uniq identifiers from string.
+ * example:
+ *
+ *    .props('{{olivier + bredele}}');
+ *    //['olivier', 'bredele']
+ *
+ * @param {String} text
+ * @return {Array}
+ * @api public
+ */
+
+Supplant.prototype.props = function(text) {
   var exprs = [];
+  //NOTE: may be cache expression for text
   text.replace(/\{\{([^}]+)\}\}/g, function(_, expr){
     var val = trim(expr);
     if(!~indexOf(exprs, val)) exprs = exprs.concat(props(val));
   });
   return exprs;
 };
+
+
+/**
+ * Add substitution filter.
+ * example:
+ *
+ *    .filter('hello', function(str) {
+ *      return 'hello ' + str;
+ *    });
+ *
+ * @param {String} name
+ * @param {Function} fn
+ * @return {Supplant}
+ * @api public
+ */
+
+Supplant.prototype.filter = function(name, fn) {
+	this.filters[name] = fn;
+	return this;
+};
+
+
+//var exprs = expr.match(/([^|].*?)[^|](?=(?:\||$)(?!\|))/g);
+//http://jsperf.com/split-vs-regexp-interpolation
+//
+//with split:
+// var list = expr.split('|'),
+//     val = model[trim(list.shift())] || '';
+// for(var i = 0, l = list.length; i < l; i++) {
+// 	val = _this.filters[trim(list[i])](val)
+// }
+// return val;
+
+//{{} | hello}
