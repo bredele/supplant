@@ -28,7 +28,9 @@ describe("Variable substitution", function() {
 	});
 
 	it("should ignore whitespaces", function() {
+				console.time('without filter');
 		var result = supplant.text('hello {{     name    }}', data);
+				console.timeEnd('without filter');
 		assert.equal(result, 'hello foo');
 	});
 	
@@ -48,7 +50,9 @@ describe("Filters", function() {
 		supplant.filter('hello', function(str) {
 			return 'hello ' + str + '!';
 		});
-		var result = supplant.text('{{name | hello}}', data);
+		console.time('filter');
+		var result = supplant.text('{{ name } | hello}', data);
+		console.timeEnd('filter');
 		assert.equal(result, 'hello foo!');
 	});
 	
