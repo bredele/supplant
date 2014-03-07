@@ -28,9 +28,9 @@ describe("Variable substitution", function() {
 	});
 
 	it("should ignore whitespaces", function() {
-				console.time('without filter');
+		console.time('without filter');
 		var result = supplant.text('hello {{     name    }}', data);
-				console.timeEnd('without filter');
+		console.timeEnd('without filter');
 		assert.equal(result, 'hello foo');
 	});
 	
@@ -44,6 +44,7 @@ describe("Filters", function() {
 			brother: 'bar'
 		};
 		supplant = new Supplant();
+
 	});
 
 	it("should filter variable", function() {
@@ -51,9 +52,22 @@ describe("Filters", function() {
 			return 'hello ' + str + '!';
 		});
 		console.time('filter');
-		var result = supplant.text('{{ name } | hello}', data);
+		var result = supplant.text('{{ name} | hello}', data);
 		console.timeEnd('filter');
 		assert.equal(result, 'hello foo!');
+	});
+
+	it('should apply multiple filters', function() {
+		supplant.filter('hello', function(str) {
+			return 'hello ' + str + '!';
+		});
+		supplant.filter('upper', function(str) {
+			return str.toUpperCase();
+		});
+		console.time('filter2');
+		var result = supplant.text('{{ name }| upper|hello}', data);
+		console.timeEnd('filter2');
+		assert.equal(result, 'hello FOO!');
 	});
 	
 });
