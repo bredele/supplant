@@ -101,7 +101,8 @@ Supplant.prototype.text = function(text, model) {
 		if(filters) {
 			var list = filters.split('|');
 			for(var i = 1, l = list.length; i < l; i++) {
-				val = _this.filters[trim(list[i])](val);
+				var filter = _this.filters[trim(list[i])];
+				if(filter) val = filter(val);
 			}
 		}
 		return val;
@@ -124,7 +125,7 @@ Supplant.prototype.text = function(text, model) {
 Supplant.prototype.props = function(text) {
   var exprs = [];
   //NOTE: may be cache expression for text
-  text.replace(/\{\{([^}]+)\}\}/g, function(_, expr){
+  text.replace(this.match, function(_, expr){
     var val = trim(expr);
     if(!~indexOf(exprs, val)) exprs = exprs.concat(props(val));
   });

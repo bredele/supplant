@@ -36,7 +36,7 @@ describe("Variable substitution", function() {
 
 describe('Substitution props', function(){
 
-	var supplant, data;
+	var supplant;
 	beforeEach(function() {
 		supplant = new Supplant();
 	});
@@ -44,13 +44,19 @@ describe('Substitution props', function(){
   it('should return an array of the store attributes', function(){
     var str = "{{welcome}} My name is {{firstname}} {{lastname}} and I love {{country}}";
     var props = supplant.props(str);
-    assert('["welcome","firstname","lastname","country"]' === JSON.stringify(props));
+    assert.equal('["welcome","firstname","lastname","country"]',JSON.stringify(props));
   });
 
   it('should return a uniq array', function(){
     var str = "My github is {{github}} {{github}} and I love {{country}}";
     var props = supplant.props(str);
-    assert('["github","country"]' === JSON.stringify(props));
+    assert.equal('["github","country"]', JSON.stringify(props));
+  });
+
+  it('should return a uniq array of filtered expressions', function() {
+    var str = "{{ github + country } | hello}";
+    var props = supplant.props(str);
+    assert.equal('["github","country"]', JSON.stringify(props));
   });
 
 });
@@ -93,6 +99,12 @@ describe("Filters", function() {
 		//around 4times slower than normal filter
 		var result = supplant.text("{{bool || 'brick'.toUpperCase()} | hello}", data);
 		assert.equal(result,'hello BRICK!');
+	});
+
+  //NOTE: trigger an error?
+	it("should do nothing if filter doesn't exist", function() {
+		var result = supplant.text('{{ name} | hello}', data);
+		assert.equal(result, 'foo');
 	});
 	
 });
