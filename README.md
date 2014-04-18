@@ -2,17 +2,17 @@ Supplant
 =============
 [![Build Status](https://travis-ci.org/bredele/supplant.png?branch=master)](https://travis-ci.org/bredele/supplant)
 
-  > Variable substitution on the string.
+  Variable substitution/interpolation on string. Look for expressions enclosed in {{ }} braces and substitutes its value with data.
 
-It scans through the string looking for expressions enclosed in {{ }} braces. If an expression is found, use it as a key on the object, and if the key has a string value or number value, it is substituted for the bracket expression and it repeats.
+  Built for **[brick](http://github.com/bredele/brick)** and **[datastore](http://github.com/bredele/datastore)**. Supplant is agnostic and can be used as a standalone template engine on both client and server sides. For example, supplant is used by **[marc](http://github.com/bredele/marc)** to make markdown a dynamic template engine.
 
 ## Installation
 
-with component:
+  with [component](http://github.com/component/component):
 
     $ component install bredele/supplant
 
-with nodejs:
+  with [nodejs](http://nodejs.org):
 
     $ npm install supplant
 
@@ -32,17 +32,16 @@ subs.text('my name is {{ name }}', {
   name : 'Olivier',
 });
 
-//my name is Olivier
+// = > my name is Olivier
 ```
-
 
 ### supplant.props(str)
 
   return uniq identifiers
 
 ```js
-subs.props('hello {{ name }} and {{other}}'');
-//['name', 'other']
+subs.props('hello {{ name }} and {{other}}');
+// => ['name', 'other']
 ```
 
 ## Advanced
@@ -68,7 +67,7 @@ subs.text('{{ company} | hello}', {
   company : 'github'
 });
 
-//hello github 
+// => hello github 
 ```
 
 ## License
