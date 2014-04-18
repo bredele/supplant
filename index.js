@@ -1,7 +1,13 @@
-var indexOf = require('indexof'),
-		trim = require('trim'),
-		re = /\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\/|[a-zA-Z_]\w*/g,
-		cache = {}; //should be in this?
+
+/**
+ * Module dependencies.
+ * @api private
+ */
+
+var indexOf = require('indexof');
+var trim = require('trim');
+var re = /\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\/|[a-zA-Z_]\w*/g;
+var cache = {}; //should itbe in this?
 
 
 /**
@@ -23,7 +29,8 @@ module.exports = Supplant;
 function props(str) {
   //benchmark with using match and uniq array
   var arr = [];
-  str.replace(/\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\//g, '')
+  str
+    .replace(/\.\w+|\w+ *\(|"[^"]*"|'[^']*'|\/([^/]+)\//g, '')
     .replace(/[a-zA-Z_]\w*/g, function(expr) {
       if(!~indexOf(arr, expr)) arr.push(expr);
     });
@@ -73,8 +80,8 @@ function scope(str) {
  */
 
 function Supplant() {
-	this.match = /\{\{([^}]+)\}([^}]*)\}/g;
-	this.filters = {};
+  this.match = /\{\{([^}]+)\}([^}]*)\}/g;
+  this.filters = {};
 }
 
 
@@ -88,34 +95,35 @@ function Supplant() {
  */
 
 Supplant.prototype.text = function(text, model) {
-	var _this = this;
-	return text.replace(this.match, function(_, expr, filters) {
-		var val;
-		//is there fast regex? may be use or
-		if(/[\.\'\[\+\(\|]/.test(expr)) {
-			var fn = cache[expr] = cache[expr] || scope(expr);
-			val = fn(model) || '';
-		} else {
-			val = model[trim(expr)] || '';
-		}
-		if(filters) {
-			var list = filters.split('|');
-			for(var i = 1, l = list.length; i < l; i++) {
-				var filter = _this.filters[trim(list[i])];
-				if(filter) val = filter(val);
-			}
-		}
-		return val;
-	});
+  var _this = this;
+  return text.replace(this.match, function(_, expr, filters) {
+    var val;
+    //is there fast regex? may be use or
+    if(/[\.\'\[\+\(\|]/.test(expr)) {
+      var fn = cache[expr] = cache[expr] || scope(expr);
+      val = fn(model) || '';
+    } else {
+      val = model[trim(expr)] || '';
+    }
+    if(filters) {
+      var list = filters.split('|');
+      for(var i = 1, l = list.length; i < l; i++) {
+        var filter = _this.filters[trim(list[i])];
+        if(filter) val = filter(val);
+      }
+    }
+    return val;
+  });
 };
 
 
 /**
  * Get uniq identifiers from string.
- * example:
+ * 
+ * Examples:
  *
  *    .props('{{olivier + bredele}}');
- *    //['olivier', 'bredele']
+ *    // => ['olivier', 'bredele']
  *
  * @param {String} text
  * @return {Array}
@@ -135,7 +143,8 @@ Supplant.prototype.props = function(text) {
 
 /**
  * Add substitution filter.
- * example:
+ * 
+ * Examples:
  *
  *    .filter('hello', function(str) {
  *      return 'hello ' + str;
@@ -148,8 +157,8 @@ Supplant.prototype.props = function(text) {
  */
 
 Supplant.prototype.filter = function(name, fn) {
-	this.filters[name] = fn;
-	return this;
+  this.filters[name] = fn;
+  return this;
 };
 
 
@@ -160,7 +169,7 @@ Supplant.prototype.filter = function(name, fn) {
 // var list = expr.split('|'),
 //     val = model[trim(list.shift())] || '';
 // for(var i = 0, l = list.length; i < l; i++) {
-// 	val = _this.filters[trim(list[i])](val)
+//  val = _this.filters[trim(list[i])](val)
 // }
 // return val;
 
